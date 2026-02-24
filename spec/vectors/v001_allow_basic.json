@@ -1,0 +1,47 @@
+{
+  "id": "v001_allow_basic",
+  "description": "Basic allow decision at genesis.",
+  "input": {
+    "subject": {
+      "type": "human",
+      "id": "user_001"
+    },
+    "action": "payout.initiate",
+    "resource": {
+      "type": "payout",
+      "id": "po_1001"
+    },
+    "policy": {
+      "policy_v": "v0",
+      "scopes": [
+        "payout:create"
+      ],
+      "constraints": {
+        "max_amount_cents": 500000,
+        "currency_allowlist": [
+          "USD"
+        ],
+        "merchant_allowlist": [
+          "m_alpha"
+        ]
+      }
+    },
+    "timestamp": "2026-02-24T12:00:00Z",
+    "jti": "jti_v001_allow_basic"
+  },
+  "output": {
+    "decision": "allow",
+    "reason_codes": [
+      "policy_checks_passed"
+    ]
+  },
+  "canonical_input": "{\"action\":\"payout.initiate\",\"jti\":\"jti_v001_allow_basic\",\"policy\":{\"constraints\":{\"currency_allowlist\":[\"USD\"],\"max_amount_cents\":500000,\"merchant_allowlist\":[\"m_alpha\"]},\"policy_v\":\"v0\",\"scopes\":[\"payout:create\"]},\"resource\":{\"id\":\"po_1001\",\"type\":\"payout\"},\"subject\":{\"id\":\"user_001\",\"type\":\"human\"},\"timestamp\":\"2026-02-24T12:00:00Z\"}",
+  "canonical_output": "{\"decision\":\"allow\",\"reason_codes\":[\"policy_checks_passed\"]}",
+  "expected": {
+    "input_hash_hex": "e5d4dbb59cb60546fa7cf082de10d9c56232b91d09d42e4c88396d68bd8cf4a2",
+    "output_hash_hex": "66e066b36c5c604ea6c88adca2e887101e2188fe9d03c89dd207effbff23b2a0",
+    "prev_hash_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonical_event_material": "{\"action\":\"payout.initiate\",\"hashes\":{\"input_hash\":\"e5d4dbb59cb60546fa7cf082de10d9c56232b91d09d42e4c88396d68bd8cf4a2\",\"output_hash\":\"66e066b36c5c604ea6c88adca2e887101e2188fe9d03c89dd207effbff23b2a0\"},\"jti\":\"jti_v001_allow_basic\",\"policy\":{\"constraints\":{\"currency_allowlist\":[\"USD\"],\"max_amount_cents\":500000,\"merchant_allowlist\":[\"m_alpha\"]},\"policy_v\":\"v0\",\"scopes\":[\"payout:create\"]},\"resource\":{\"id\":\"po_1001\",\"type\":\"payout\"},\"result\":{\"decision\":\"allow\",\"reason_codes\":[\"policy_checks_passed\"]},\"subject\":{\"id\":\"user_001\",\"type\":\"human\"},\"timestamp\":\"2026-02-24T12:00:00Z\"}",
+    "entry_hash_hex": "36da0baa41318cbd87691d5f4fa5768fbdaf4f73f23ca9804a8ff03b49827ee5"
+  }
+}

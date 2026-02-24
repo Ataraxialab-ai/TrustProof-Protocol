@@ -1,0 +1,75 @@
+{
+  "id": "v005_canonicalization_edge",
+  "description": "Nested ordering/array edge cases to assert deterministic canonicalization.",
+  "input": {
+    "jti": "jti_v005_canonicalization_edge",
+    "timestamp": "2026-02-24T12:04:00Z",
+    "policy": {
+      "constraints": {
+        "merchant_allowlist": [
+          "m_zeta",
+          "m_alpha"
+        ],
+        "currency_allowlist": [
+          "EUR",
+          "USD"
+        ],
+        "max_amount_cents": 750000
+      },
+      "scopes": [
+        "risk:review",
+        "payout:create"
+      ],
+      "policy_v": "v0"
+    },
+    "resource": {
+      "id": "po_1005",
+      "type": "payout"
+    },
+    "action": "payout.initiate",
+    "subject": {
+      "id": "user_005",
+      "type": "human"
+    },
+    "metadata": {
+      "zeta": {
+        "b": 2,
+        "a": 1
+      },
+      "alpha": [
+        {
+          "y": 2,
+          "x": 1
+        },
+        {
+          "b": [
+            3,
+            2,
+            1
+          ],
+          "a": "v"
+        }
+      ]
+    }
+  },
+  "output": {
+    "reason_codes": [
+      "velocity_check",
+      "geo_mismatch"
+    ],
+    "decision": "step_up",
+    "details": {
+      "b": 2,
+      "a": 1
+    }
+  },
+  "canonical_input": "{\"action\":\"payout.initiate\",\"jti\":\"jti_v005_canonicalization_edge\",\"metadata\":{\"alpha\":[{\"x\":1,\"y\":2},{\"a\":\"v\",\"b\":[3,2,1]}],\"zeta\":{\"a\":1,\"b\":2}},\"policy\":{\"constraints\":{\"currency_allowlist\":[\"EUR\",\"USD\"],\"max_amount_cents\":750000,\"merchant_allowlist\":[\"m_zeta\",\"m_alpha\"]},\"policy_v\":\"v0\",\"scopes\":[\"risk:review\",\"payout:create\"]},\"resource\":{\"id\":\"po_1005\",\"type\":\"payout\"},\"subject\":{\"id\":\"user_005\",\"type\":\"human\"},\"timestamp\":\"2026-02-24T12:04:00Z\"}",
+  "canonical_output": "{\"decision\":\"step_up\",\"details\":{\"a\":1,\"b\":2},\"reason_codes\":[\"velocity_check\",\"geo_mismatch\"]}",
+  "expected": {
+    "input_hash_hex": "e709138d86337e6f31e589f92fbf62c16f1e7c7aaba573d037905a5da421d40e",
+    "output_hash_hex": "79d3ed30d71ff09f19d843f6f57db396694f5b2f02dba5ef680c9c660b0a2bf0",
+    "prev_hash_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonical_event_material": "{\"action\":\"payout.initiate\",\"hashes\":{\"input_hash\":\"e709138d86337e6f31e589f92fbf62c16f1e7c7aaba573d037905a5da421d40e\",\"output_hash\":\"79d3ed30d71ff09f19d843f6f57db396694f5b2f02dba5ef680c9c660b0a2bf0\"},\"jti\":\"jti_v005_canonicalization_edge\",\"policy\":{\"constraints\":{\"currency_allowlist\":[\"EUR\",\"USD\"],\"max_amount_cents\":750000,\"merchant_allowlist\":[\"m_zeta\",\"m_alpha\"]},\"policy_v\":\"v0\",\"scopes\":[\"risk:review\",\"payout:create\"]},\"resource\":{\"id\":\"po_1005\",\"type\":\"payout\"},\"result\":{\"decision\":\"step_up\",\"details\":{\"a\":1,\"b\":2},\"reason_codes\":[\"velocity_check\",\"geo_mismatch\"]},\"subject\":{\"id\":\"user_005\",\"type\":\"human\"},\"timestamp\":\"2026-02-24T12:04:00Z\"}",
+    "entry_hash_hex": "32a8b74eb453850cc055a8b8661fe4decf6dc1be71de10edd21dc51a5793f3a4"
+  }
+}

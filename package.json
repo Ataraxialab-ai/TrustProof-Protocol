@@ -6,6 +6,10 @@
   "scripts": {
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "spec:validate": "node scripts/validate_spec.js"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
   }
 }

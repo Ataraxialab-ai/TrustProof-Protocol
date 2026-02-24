@@ -1,0 +1,42 @@
+{
+  "subject": {
+    "type": "human",
+    "id": "user_003"
+  },
+  "action": "payout.initiate",
+  "resource": {
+    "type": "payout",
+    "id": "po_1003"
+  },
+  "policy": {
+    "policy_v": "v0",
+    "scopes": [
+      "payout:create"
+    ],
+    "constraints": {
+      "max_amount_cents": 250000,
+      "currency_allowlist": [
+        "USD"
+      ],
+      "merchant_allowlist": [
+        "m_gamma"
+      ]
+    }
+  },
+  "result": {
+    "decision": "step_up",
+    "reason_codes": [
+      "mfa_required"
+    ]
+  },
+  "hashes": {
+    "input_hash": "1c315ef5dd2ccbfceda4f71626168e958fe56728346c930973279489187a0567",
+    "output_hash": "267ed91b7390bd06f6daafce59bfd634feeb3d395938f174c32165b3b5a49794"
+  },
+  "timestamp": "2026-02-24T12:02:00Z",
+  "jti": "jti_v003_stepup_basic",
+  "chain": {
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "entry_hash": "2ab3420d217336efde422d22150e7e26c69c7c35f973fd890f59fafd4457b79f"
+  }
+}
