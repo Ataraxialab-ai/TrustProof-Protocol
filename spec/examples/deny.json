@@ -1,0 +1,44 @@
+{
+  "subject": {
+    "type": "human",
+    "id": "user_002"
+  },
+  "action": "payout.initiate",
+  "resource": {
+    "type": "payout",
+    "id": "po_1002"
+  },
+  "policy": {
+    "policy_v": "v0",
+    "scopes": [
+      "payout:create"
+    ],
+    "constraints": {
+      "max_amount_cents": 100000,
+      "currency_allowlist": [
+        "USD",
+        "EUR"
+      ],
+      "merchant_allowlist": [
+        "m_beta"
+      ]
+    }
+  },
+  "result": {
+    "decision": "deny",
+    "reason_codes": [
+      "amount_exceeds_limit",
+      "merchant_not_allowed"
+    ]
+  },
+  "hashes": {
+    "input_hash": "d56bb5ca9e59c5f2daa851cb78f9c4af77a180abc2d331f55a9bed3133751df4",
+    "output_hash": "8eef66ca42a513f242a28476e496aaee73d0941faada3e41a2798159eaaedd11"
+  },
+  "timestamp": "2026-02-24T12:01:00Z",
+  "jti": "jti_v002_deny_basic",
+  "chain": {
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "entry_hash": "c5bf2808328d75ed87eeb28a1c246ff34a965f237cc47cfbff757f8112a3e8fe"
+  }
+}

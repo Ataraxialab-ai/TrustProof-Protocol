@@ -1,0 +1,49 @@
+{
+  "id": "v004_chain_linking",
+  "description": "Chain linking with prev_hash from v001_allow_basic entry hash.",
+  "input": {
+    "subject": {
+      "type": "agent",
+      "id": "agent_risk_engine"
+    },
+    "action": "payout.initiate",
+    "resource": {
+      "type": "payout",
+      "id": "po_1004"
+    },
+    "policy": {
+      "policy_v": "v0",
+      "scopes": [
+        "payout:create",
+        "risk:review"
+      ],
+      "constraints": {
+        "max_amount_cents": 300000,
+        "currency_allowlist": [
+          "USD"
+        ],
+        "merchant_allowlist": [
+          "m_alpha",
+          "m_beta"
+        ]
+      }
+    },
+    "timestamp": "2026-02-24T12:03:00Z",
+    "jti": "jti_v004_chain_linking"
+  },
+  "output": {
+    "decision": "allow",
+    "reason_codes": [
+      "manual_review_cleared"
+    ]
+  },
+  "canonical_input": "{\"action\":\"payout.initiate\",\"jti\":\"jti_v004_chain_linking\",\"policy\":{\"constraints\":{\"currency_allowlist\":[\"USD\"],\"max_amount_cents\":300000,\"merchant_allowlist\":[\"m_alpha\",\"m_beta\"]},\"policy_v\":\"v0\",\"scopes\":[\"payout:create\",\"risk:review\"]},\"resource\":{\"id\":\"po_1004\",\"type\":\"payout\"},\"subject\":{\"id\":\"agent_risk_engine\",\"type\":\"agent\"},\"timestamp\":\"2026-02-24T12:03:00Z\"}",
+  "canonical_output": "{\"decision\":\"allow\",\"reason_codes\":[\"manual_review_cleared\"]}",
+  "expected": {
+    "input_hash_hex": "ee040090d5f688801932a61f974890929f65972558e8e52a8603fc3d873f0f51",
+    "output_hash_hex": "3078ee16e65f5e7cc36293cbd42ba3ac950b19bb8c262f2d1f2990273399c329",
+    "prev_hash_hex": "36da0baa41318cbd87691d5f4fa5768fbdaf4f73f23ca9804a8ff03b49827ee5",
+    "canonical_event_material": "{\"action\":\"payout.initiate\",\"hashes\":{\"input_hash\":\"ee040090d5f688801932a61f974890929f65972558e8e52a8603fc3d873f0f51\",\"output_hash\":\"3078ee16e65f5e7cc36293cbd42ba3ac950b19bb8c262f2d1f2990273399c329\"},\"jti\":\"jti_v004_chain_linking\",\"policy\":{\"constraints\":{\"currency_allowlist\":[\"USD\"],\"max_amount_cents\":300000,\"merchant_allowlist\":[\"m_alpha\",\"m_beta\"]},\"policy_v\":\"v0\",\"scopes\":[\"payout:create\",\"risk:review\"]},\"resource\":{\"id\":\"po_1004\",\"type\":\"payout\"},\"result\":{\"decision\":\"allow\",\"reason_codes\":[\"manual_review_cleared\"]},\"subject\":{\"id\":\"agent_risk_engine\",\"type\":\"agent\"},\"timestamp\":\"2026-02-24T12:03:00Z\"}",
+    "entry_hash_hex": "ba63c69a9aeeef655abd548ed2046d67e68171833ad598e329b9f4fa146dcd6e"
+  }
+}
