@@ -1,0 +1,23 @@
+# Node
+node_modules/
+pnpm-debug.log*
+.npm/
+
+# Build artifacts
+dist/
+coverage/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
