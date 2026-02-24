@@ -19,12 +19,7 @@ let joseModulePromise: Promise<JoseModule> | null = null;
 
 export async function getJoseModule(): Promise<JoseModule> {
   if (!joseModulePromise) {
-    joseModulePromise = (
-      new Function('return import("jose")')() as Promise<JoseModule>
-    ).catch((error: unknown) => {
-      joseModulePromise = null;
-      throw error;
-    });
+    joseModulePromise = import("jose") as unknown as Promise<JoseModule>;
   }
 
   return joseModulePromise;
