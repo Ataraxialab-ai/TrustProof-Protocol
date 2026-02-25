@@ -74,35 +74,92 @@ function findOptionValue(args: string[], option: string): string | null {
   return null;
 }
 
-function formatSummary(payload: unknown): string {
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-    return "OK";
+function asRecord(value: unknown): Record<string, unknown> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null;
   }
 
-  const claims = payload as Record<string, unknown>;
-  const subject =
-    claims.subject && typeof claims.subject === "object" && !Array.isArray(claims.subject)
-      ? ((claims.subject as Record<string, unknown>).id ?? "unknown")
-      : "unknown";
-  const action = claims.action ?? "unknown";
-  const decision =
-    claims.result && typeof claims.result === "object" && !Array.isArray(claims.result)
-      ? ((claims.result as Record<string, unknown>).decision ?? "unknown")
-      : "unknown";
+  return value as Record<string, unknown>;
+}
 
-  return `OK\nsubject.id=${String(subject)}\naction=${String(action)}\ndecision=${String(decision)}`;
+function shortHash(value: unknown): string {
+  if (typeof value !== "string" || value.length === 0) {
+    return "unknown";
+  }
+
+  return `${value.slice(0, 6)}…`;
+}
+
+function formatVerifiedSummary(payload: unknown): string {
+  const claims = asRecord(payload);
+  if (!claims) {
+    return "✅ Verified";
+  }
+
+  const subject = asRecord(claims.subject);
+  const resource = asRecord(claims.resource);
+  const result = asRecord(claims.result);
+  const hashes = asRecord(claims.hashes);
+  const chain = asRecord(claims.chain);
+
+  const subjectType = typeof subject?.type === "string" ? subject.type : "unknown";
+  const subjectId = typeof subject?.id === "string" ? subject.id : "unknown";
+  const action = typeof claims.action === "string" ? claims.action : "unknown";
+  const decision = typeof result?.decision === "string" ? result.decision : "unknown";
+  const resourceType = typeof resource?.type === "string" ? resource.type : "unknown";
+  const resourceId = typeof resource?.id === "string" ? resource.id : "unknown";
+  const timestamp = typeof claims.timestamp === "string" ? claims.timestamp : "unknown";
+  const jti = typeof claims.jti === "string" ? claims.jti : "unknown";
+
+  return [
+    "✅ Verified",
+    `Subject: ${subjectType}:${subjectId}`,
+    `Action: ${action}`,
+    `Decision: ${decision}`,
+    `Resource: ${resourceType}:${resourceId}`,
+    `Timestamp: ${timestamp}`,
+    `JTI: ${jti}`,
+    `Hashes: input=${shortHash(hashes?.input_hash)} output=${shortHash(hashes?.output_hash)}`,
+    `Chain: prev=${shortHash(chain?.prev_hash)} entry=${shortHash(chain?.entry_hash)}`
+  ].join("\n");
+}
+
+function formatNotVerified(errors: Array<{ code?: string; message?: string }>): string {
+  const lines = ["❌ Not Verified"];
+  for (const error of errors) {
+    const code = error.code ?? "UNKNOWN_ERROR";
+    const message = error.message ?? "Unknown verification error.";
+    lines.push(`${code}: ${message}`);
+  }
+  return lines.join("\n");
 }
 
 async function runVerify(args: string[], jsonMode: boolean, io: CliIO): Promise<number> {
   const token = args[1];
   if (!token) {
-    io.err("FAIL\nmissing <jwt> argument");
+    const result = {
+      ok: false,
+      errors: [{ code: "MISSING_ARGUMENT", message: "missing <jwt> argument" }]
+    };
+    if (jsonMode) {
+      io.out(JSON.stringify(result));
+    } else {
+      io.err(formatNotVerified(result.errors));
+    }
     return 1;
   }
 
   const pubkeyArg = findOptionValue(args.slice(2), "--pubkey");
   if (!pubkeyArg) {
-    io.err("FAIL\nmissing --pubkey <pem|b64|path>");
+    const result = {
+      ok: false,
+      errors: [{ code: "MISSING_ARGUMENT", message: "missing --pubkey <pem|b64|path>" }]
+    };
+    if (jsonMode) {
+      io.out(JSON.stringify(result));
+    } else {
+      io.err(formatNotVerified(result.errors));
+    }
     return 1;
   }
 
@@ -111,10 +168,14 @@ async function runVerify(args: string[], jsonMode: boolean, io: CliIO): Promise<
     publicKeyPem = loadPublicKeyPem(pubkeyArg);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    const result = {
+      ok: false,
+      errors: [{ code: "PUBKEY_LOAD_ERROR", message }]
+    };
     if (jsonMode) {
-      io.out(JSON.stringify({ ok: false, errors: [{ code: "PUBKEY_LOAD_ERROR", message }] }, null, 2));
+      io.out(JSON.stringify(result));
     } else {
-      io.err(`FAIL\nPUBKEY_LOAD_ERROR: ${message}`);
+      io.err(formatNotVerified(result.errors));
     }
     return 1;
   }
@@ -122,12 +183,11 @@ async function runVerify(args: string[], jsonMode: boolean, io: CliIO): Promise<
   const result = await verify(token, publicKeyPem);
 
   if (jsonMode) {
-    io.out(JSON.stringify(result, null, 2));
+    io.out(JSON.stringify(result));
   } else if (result.ok) {
-    io.out(formatSummary(result.claims));
+    io.out(formatVerifiedSummary(result.claims));
   } else {
-    const lines = ["FAIL", ...result.errors.map((error) => `${error.code}: ${error.message}`)];
-    io.err(lines.join("\n"));
+    io.err(formatNotVerified(result.errors));
   }
 
   return result.ok ? 0 : 1;
@@ -143,7 +203,7 @@ function runInspect(args: string[], jsonMode: boolean, io: CliIO): number {
   try {
     const payload = decodeJwtPayloadUntrusted(token);
     if (jsonMode) {
-      io.out(JSON.stringify({ ok: true, payload }, null, 2));
+      io.out(JSON.stringify(payload));
     } else {
       io.out(JSON.stringify(payload, null, 2));
     }
@@ -151,7 +211,7 @@ function runInspect(args: string[], jsonMode: boolean, io: CliIO): number {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (jsonMode) {
-      io.out(JSON.stringify({ ok: false, error: message }, null, 2));
+      io.out(JSON.stringify({ error: message }));
     } else {
       io.err(`FAIL\n${message}`);
     }

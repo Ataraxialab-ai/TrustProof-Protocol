@@ -32,6 +32,6 @@ describe("cli", () => {
 
     expect(exitCode).toBe(0);
     expect(stderr).toEqual([]);
-    expect(stdout.some((line) => line.includes("OK"))).toBe(true);
+    expect(stdout.some((line) => line.includes("✅ Verified"))).toBe(true);
   });
 });

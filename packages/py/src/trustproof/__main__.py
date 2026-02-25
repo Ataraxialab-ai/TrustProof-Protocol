@@ -41,23 +41,51 @@ def _load_public_key_pem(pubkey_arg: str) -> str:
 
 def _format_verify_summary(claims: Any) -> str:
     if not isinstance(claims, dict):
-        return "OK"
+        return "✅ Verified"
 
-    subject = claims.get("subject")
-    result = claims.get("result")
+    subject = claims.get("subject") if isinstance(claims.get("subject"), dict) else {}
+    resource = claims.get("resource") if isinstance(claims.get("resource"), dict) else {}
+    result = claims.get("result") if isinstance(claims.get("result"), dict) else {}
+    hashes = claims.get("hashes") if isinstance(claims.get("hashes"), dict) else {}
+    chain = claims.get("chain") if isinstance(claims.get("chain"), dict) else {}
 
-    subject_id = subject.get("id") if isinstance(subject, dict) else "unknown"
+    subject_type = subject.get("type", "unknown")
+    subject_id = subject.get("id", "unknown")
     action = claims.get("action", "unknown")
-    decision = result.get("decision") if isinstance(result, dict) else "unknown"
+    decision = result.get("decision", "unknown")
+    resource_type = resource.get("type", "unknown")
+    resource_id = resource.get("id", "unknown")
+    timestamp = claims.get("timestamp", "unknown")
+    jti = claims.get("jti", "unknown")
 
     return "\n".join(
         [
-            "OK",
-            f"subject.id={subject_id}",
-            f"action={action}",
-            f"decision={decision}",
+            "✅ Verified",
+            f"Subject: {subject_type}:{subject_id}",
+            f"Action: {action}",
+            f"Decision: {decision}",
+            f"Resource: {resource_type}:{resource_id}",
+            f"Timestamp: {timestamp}",
+            f"JTI: {jti}",
+            f"Hashes: input={_short_hash(hashes.get('input_hash'))} output={_short_hash(hashes.get('output_hash'))}",
+            f"Chain: prev={_short_hash(chain.get('prev_hash'))} entry={_short_hash(chain.get('entry_hash'))}",
         ]
     )
+
+
+def _short_hash(value: Any) -> str:
+    if not isinstance(value, str) or not value:
+        return "unknown"
+    return f"{value[:6]}…"
+
+
+def _format_not_verified(errors: list[dict[str, Any]]) -> str:
+    lines = ["❌ Not Verified"]
+    for error in errors:
+        code = error.get("code", "UNKNOWN_ERROR")
+        message = error.get("message", "Unknown verification error.")
+        lines.append(f"{code}: {message}")
+    return "\n".join(lines)
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -89,13 +117,19 @@ def main(argv: list[str] | None = None) -> int:
             payload = _decode_jwt_payload_untrusted(args.jwt)
         except Exception as exc:  # noqa: BLE001
             if args.json:
-                print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+                print(
+                    json.dumps(
+                        {"error": str(exc)},
+                        ensure_ascii=False,
+                        separators=(",", ":"),
+                    )
+                )
             else:
                 print(f"FAIL\n{exc}", file=sys.stderr)
             return 1
 
         if args.json:
-            print(json.dumps({"ok": True, "payload": payload}, ensure_ascii=False, indent=2))
+            print(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
         else:
             print(json.dumps(payload, ensure_ascii=False, indent=2))
         return 0
@@ -104,32 +138,24 @@ def main(argv: list[str] | None = None) -> int:
         try:
             public_key_pem = _load_public_key_pem(args.pubkey)
         except Exception as exc:  # noqa: BLE001
+            result = {
+                "ok": False,
+                "errors": [{"code": "PUBKEY_LOAD_ERROR", "message": str(exc)}],
+            }
             if args.json:
-                print(
-                    json.dumps(
-                        {
-                            "ok": False,
-                            "errors": [{"code": "PUBKEY_LOAD_ERROR", "message": str(exc)}],
-                        },
-                        ensure_ascii=False,
-                        indent=2,
-                    )
-                )
+                print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
             else:
-                print(f"FAIL\nPUBKEY_LOAD_ERROR: {exc}", file=sys.stderr)
+                print(_format_not_verified(result["errors"]), file=sys.stderr)
             return 1
 
         result = verify_token(args.jwt, public_key_pem)
 
         if args.json:
-            print(json.dumps(result, ensure_ascii=False, indent=2))
+            print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
         elif result.get("ok"):
             print(_format_verify_summary(result.get("claims")))
         else:
-            lines = ["FAIL"]
-            for error in result.get("errors", []):
-                lines.append(f"{error.get('code')}: {error.get('message')}")
-            print("\n".join(lines), file=sys.stderr)
+            print(_format_not_verified(result.get("errors", [])), file=sys.stderr)
 
         return 0 if result.get("ok") else 1
 
