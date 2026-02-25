@@ -23,6 +23,12 @@ node packages/js/dist/cli.js inspect "$(cat /tmp/tp.jwt)"
 node packages/js/dist/cli.js verify "$(cat /tmp/tp.jwt)" --pubkey /tmp/tp.pub.pem
 ```
 
+## Playground (StackBlitz)
+
+Run generate/verify/chain in the browser:
+
+https://stackblitz.com/github/Ataraxialab-ai/TrustProof-Protocol/tree/main/examples/stackblitz
+
 ## Verifier CLI
 
 ```bash
