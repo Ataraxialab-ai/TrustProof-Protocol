@@ -29,7 +29,9 @@
     "test": "vitest run",
     "build": "tsup src/index.ts src/cli.ts --format esm,cjs --dts",
     "example:langchain": "node ../../examples/integrations/langchain/tool_call_proof.mjs",
-    "example:openai-agents": "node ../../examples/integrations/openai_agents/on_action_proof_chain.mjs"
+    "example:openai-agents": "node ../../examples/integrations/openai_agents/on_action_proof_chain.mjs",
+    "example:payout-stepup": "node ../../examples/payout_stepup/run.mjs",
+    "example:agent-actions": "node ../../examples/agent_actions/run.mjs"
   },
   "dependencies": {
     "@langchain/core": "^1.1.28",

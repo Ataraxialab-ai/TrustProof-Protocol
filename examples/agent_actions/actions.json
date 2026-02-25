@@ -1,0 +1,45 @@
+{
+  "subject": {
+    "type": "agent",
+    "id": "agent_demo_1"
+  },
+  "policy": {
+    "policy_v": "v0",
+    "scopes": ["tools:invoke"],
+    "constraints": {}
+  },
+  "actions": [
+    {
+      "name": "agent_tool_quote",
+      "tool_name": "payout.quote",
+      "timestamp": "2026-02-24T13:00:00Z",
+      "jti": "demo_agent_quote",
+      "input": {
+        "amount_cents": 250000,
+        "currency": "USD",
+        "merchant_id": "m_alpha"
+      },
+      "output": {
+        "quote_id": "qt_demo_1",
+        "fee_cents": 500,
+        "total_cents": 250500,
+        "currency": "USD"
+      }
+    },
+    {
+      "name": "agent_tool_initiate",
+      "tool_name": "payout.initiate",
+      "timestamp": "2026-02-24T13:00:05Z",
+      "jti": "demo_agent_initiate",
+      "input": {
+        "quote_id": "qt_demo_1",
+        "amount_cents": 250000,
+        "currency": "USD"
+      },
+      "output": {
+        "payout_id": "po_demo_2",
+        "status": "queued"
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "subject": {
+    "type": "human",
+    "id": "user_001"
+  },
+  "policy": {
+    "policy_v": "v0",
+    "scopes": ["payout:create"],
+    "constraints": {
+      "max_amount_cents": 500000,
+      "currency_allowlist": ["USD"],
+      "merchant_allowlist": ["m_alpha"]
+    }
+  },
+  "cases": [
+    {
+      "name": "payout_allow",
+      "resource_id": "po_demo_1",
+      "timestamp": "2026-02-24T12:00:00Z",
+      "jti": "demo_payout_allow",
+      "input": {
+        "amount_cents": 2500,
+        "currency": "USD",
+        "merchant_id": "m_alpha"
+      },
+      "output": {
+        "status": "approved",
+        "approved_amount_cents": 2500,
+        "currency": "USD"
+      },
+      "result": {
+        "decision": "allow",
+        "reason_codes": ["policy_checks_passed"]
+      }
+    },
+    {
+      "name": "payout_stepup",
+      "resource_id": "po_demo_2",
+      "timestamp": "2026-02-24T12:00:10Z",
+      "jti": "demo_payout_stepup",
+      "input": {
+        "amount_cents": 750000,
+        "currency": "USD",
+        "merchant_id": "m_alpha"
+      },
+      "output": {
+        "status": "step_up_required",
+        "required_factor": "mfa",
+        "amount_cents": 750000
+      },
+      "result": {
+        "decision": "step_up",
+        "reason_codes": ["amount_exceeds_policy_max"]
+      }
+    }
+  ]
+}

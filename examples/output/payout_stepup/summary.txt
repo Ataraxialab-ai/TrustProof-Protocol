@@ -1,0 +1,14 @@
+TrustProof Example: payout_stepup
+
+Cases:
+- payout 25.00 USD to m_alpha => allow
+- payout 7500.00 USD to m_alpha => step_up
+
+✅ Verified payout_allow
+  action=payout.initiate decision=allow jti=demo_payout_allow
+✅ Verified payout_stepup
+  action=payout.initiate decision=step_up jti=demo_payout_stepup
+✅ Verified payout_stepup_approved
+  action=payout.step_up.approve decision=allow jti=demo_payout_stepup_approved
+
+✅ Verified chain payout_stepup -> payout_stepup_approved
