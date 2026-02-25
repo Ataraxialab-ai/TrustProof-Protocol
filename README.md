@@ -29,6 +29,14 @@ Run generate/verify/chain in the browser:
 
 https://stackblitz.com/github/Ataraxialab-ai/TrustProof-Protocol/tree/main/examples/stackblitz
 
+## Docs
+
+- [Spec](docs/spec.md)
+- [Security](docs/security.md)
+- [Why now](docs/why-now.md)
+- [LangChain integration](docs/integrations/langchain.md)
+- [OpenAI Agents integration](docs/integrations/openai_agents.md)
+
 ## Verifier CLI
 
 ```bash
