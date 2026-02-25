@@ -1,15 +1,15 @@
 # TrustProof Protocol
-https://ataraxialab-ai.github.io/TrustProof-Protocol/
-
-TrustProof Protocol defines signed action receipts: cryptographically verifiable JWT artifacts that bind a subject + policy snapshot + action + hashed I/O + tamper-evident chain.
-It is a protocol specification and verification toolchain (schema, vectors, SDKs, CLI), not a hosted control plane.
-
 [![Spec Validated](https://img.shields.io/badge/spec-validated-blue)](#quickstart)
 [![TypeScript](https://img.shields.io/badge/language-TypeScript-3178c6)](#)
 [![Python](https://img.shields.io/badge/language-Python-3776ab)](#)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-black)](https://ataraxialab-ai.github.io/TrustProof-Protocol/)
 [![Verified](https://img.shields.io/badge/verified-trustproof-lightgrey)](docs/badge.md)
+
+TrustProof Protocol defines signed action receipts — compact JWT artifacts (Ed25519 / EdDSA) that bind a subject, a policy snapshot, an action, hashed inputs/outputs, a timestamp + jti, and a tamper-evident chain.
+
+- Protocol (OSS): schema + canonicalization + hashing + chain rules + vectors + SDKs + CLI
+- Enterprise mapping (Verdicto): KYH/KYA, policy engine, hosted verification, dashboards/log export, webhooks, step-up UX, multi-tenant keys, SLAs
 
 ## Quickstart
 
@@ -30,27 +30,35 @@ Run generate/verify/chain in the browser:
 
 https://stackblitz.com/github/Ataraxialab-ai/TrustProof-Protocol/tree/main/examples/stackblitz
 
-## What It Is / Isn’t
+## What it is / What it isn't
 
-Is:
+What it is:
 
-- Portable proof format (claims envelope signed as JWT)
-- Deterministic verification rules (canonicalization, hashing, chain linkage)
-- Golden vectors and cross-language checks (`pnpm spec:validate`)
+- stable claims envelope (JSON Schema)
+- deterministic canonicalization + hashing
+- chain rule for tamper evidence
+- golden vectors to prevent drift
+- SDKs + CLI to generate/verify
 
-Isn’t:
+What it isn't:
 
-- An identity provider
-- A KYC system
-- A hosted service in the OSS protocol itself
+- Not KYC/KYB
+- Not an IdP / auth provider
+- Not hosted verification (enterprise implementation layer)
 
 ## Docs
 
 - [Spec](docs/spec.md)
-- [Security](docs/security.md)
+- [Security notes](docs/security.md)
+- [Demo runbook](docs/demo_runbook.md)
+- [Docs site](https://ataraxialab-ai.github.io/TrustProof-Protocol/)
 - [Why now](docs/why-now.md)
 - [LangChain integration](docs/integrations/langchain.md)
 - [OpenAI Agents integration](docs/integrations/openai_agents.md)
+
+## Adoption
+
+- [Adoption guide](docs/adoption.md)
 
 ## Protocol Artifacts
 
