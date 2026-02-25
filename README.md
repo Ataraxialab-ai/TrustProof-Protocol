@@ -1,7 +1,8 @@
 # TrustProof Protocol
 https://ataraxialab-ai.github.io/TrustProof-Protocol/
 
-Signed, verifiable action receipts for humans + agents.
+TrustProof Protocol defines signed action receipts: cryptographically verifiable JWT artifacts that bind a subject + policy snapshot + action + hashed I/O + tamper-evident chain.
+It is a protocol specification and verification toolchain (schema, vectors, SDKs, CLI), not a hosted control plane.
 
 [![Spec Validated](https://img.shields.io/badge/spec-validated-blue)](#quickstart)
 [![TypeScript](https://img.shields.io/badge/language-TypeScript-3178c6)](#)
@@ -29,6 +30,20 @@ Run generate/verify/chain in the browser:
 
 https://stackblitz.com/github/Ataraxialab-ai/TrustProof-Protocol/tree/main/examples/stackblitz
 
+## What It Is / Isn’t
+
+Is:
+
+- Portable proof format (claims envelope signed as JWT)
+- Deterministic verification rules (canonicalization, hashing, chain linkage)
+- Golden vectors and cross-language checks (`pnpm spec:validate`)
+
+Isn’t:
+
+- An identity provider
+- A KYC system
+- A hosted service in the OSS protocol itself
+
 ## Docs
 
 - [Spec](docs/spec.md)
@@ -36,6 +51,12 @@ https://stackblitz.com/github/Ataraxialab-ai/TrustProof-Protocol/tree/main/examp
 - [Why now](docs/why-now.md)
 - [LangChain integration](docs/integrations/langchain.md)
 - [OpenAI Agents integration](docs/integrations/openai_agents.md)
+
+## Protocol Artifacts
+
+- Schema: [`spec/trustproof.schema.json`](spec/trustproof.schema.json)
+- Examples: [`spec/examples/`](spec/examples/)
+- Vectors: [`spec/vectors/`](spec/vectors/)
 
 ## Verifier CLI
 
@@ -57,10 +78,17 @@ cd packages/py && python -m trustproof verify "<jwt>" --pubkey "<pem|b64|path>"
 
 ## Protocol vs Verdicto Enterprise
 
-**Protocol (OSS):** schema, canonicalization, hashing, chain rules, golden vectors, JS/Python SDKs. **Verdicto Enterprise:** hosted verification APIs, dashboards, webhooks, policy engine, step-up UX, compliance/audit workflows, multi-tenant key management, SLA-backed operations.
+| Scope | Includes |
+| --- | --- |
+| Protocol (OSS) | Schema, canonicalization rules, hash rules, chain rules, golden vectors, JS/Python SDKs, CLI verify/inspect |
+| Enterprise mapping (Verdicto) | Key management at scale, hosted verification, dashboards/logs, policy engine, webhooks, step-up UX, multi-tenant operations, SLA/compliance workflows |
+
+Enterprise capabilities map to protocol primitives and are out of scope for the protocol definition itself.
 
 ## Security & Correctness
 
+- `pnpm spec:validate` enforces schema and golden vector consistency.
+- Mutate one byte in a signed JWT and verification fails (`INVALID_SIGNATURE` / `INVALID_PROOF` paths).
 - Golden vectors lock canonicalization/hashing/chain behavior across languages.
 - Tampering (payload, hashes, or chain links) breaks verification deterministically.
 - Protocol proofs can use hashes/digests; raw PII payload storage is not required.
