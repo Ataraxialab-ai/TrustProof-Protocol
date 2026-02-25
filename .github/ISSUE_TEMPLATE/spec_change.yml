@@ -1,0 +1,84 @@
+name: Spec change
+description: Propose a change to schema, canonicalization, hashing, chain rules, or vectors.
+title: "[spec]: "
+labels:
+  - spec
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Spec changes require strict compatibility analysis and vector updates.
+
+        Any canonicalization/hash/chain change must include migration and parity validation.
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Current behavior
+      description: Reference current rule(s), schema fields, or vectors.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed change
+      description: Be explicit and normative.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this change?
+      description: Explain the concrete problem solved.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: backward_compatibility
+    attributes:
+      label: Backward compatibility
+      options:
+        - Fully backward compatible
+        - Additive but requires client updates
+        - Breaking change (requires version boundary)
+    validations:
+      required: true
+
+  - type: textarea
+    id: vectors
+    attributes:
+      label: Golden vectors impact
+      description: List vector files to add/update and expected parity checks.
+      placeholder: |
+        - Update spec/vectors/v00x_*.json
+        - Update JS + Python vector tests
+        - Run pnpm spec:validate
+    validations:
+      required: true
+
+  - type: textarea
+    id: migration
+    attributes:
+      label: Migration plan
+      description: Required if not fully backward compatible.
+      placeholder: |
+        - Version boundary: v0.x -> v0.y
+        - Compatibility shim period
+        - Deprecation timeline
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Validation plan (exact commands)
+      render: bash
+      placeholder: |
+        pnpm spec:validate
+        pnpm --filter @trustproof/sdk test
+        cd packages/py && python -m pytest -q
+    validations:
+      required: true

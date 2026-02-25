@@ -1,0 +1,84 @@
+name: Feature request (integration)
+description: Propose a new integration or enhancement to an existing integration.
+title: "[feature]: "
+labels:
+  - enhancement
+  - integration
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Integration proposals should be practical and testable.
+
+        Include files to touch, proof generation behavior, and verification commands.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Feature summary
+      placeholder: Add integration for <framework> tool callbacks.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What workflow is currently blocked or painful?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: Describe the integration contract and expected API.
+      placeholder: |
+        - New file: packages/js/src/integrations/<name>.ts
+        - Example: examples/integrations/<name>/run.mjs
+        - Script: pnpm --filter @trustproof/sdk example:<name>
+    validations:
+      required: true
+
+  - type: textarea
+    id: proof_flow
+    attributes:
+      label: Proof flow requirements
+      description: How does the integration emit proofs and verify results?
+      placeholder: |
+        - Must emit proof_jwt for each action/tool call
+        - verify(proof_jwt, publicKey) returns ok=true
+        - If chaining, verifyChain([...]) returns ok=true
+    validations:
+      required: true
+
+  - type: textarea
+    id: bc
+    attributes:
+      label: Compatibility and protocol impact
+      description: Does this change protocol behavior, schema, or vectors?
+      placeholder: No protocol changes. Integration-only.
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan (exact commands)
+      description: Provide copy/paste commands to validate the feature.
+      render: bash
+      placeholder: |
+        pnpm spec:validate
+        pnpm --filter @trustproof/sdk test
+        pnpm --filter @trustproof/sdk example:<name>
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What alternatives did you evaluate?
+    validations:
+      required: false
