@@ -1,0 +1,93 @@
+name: Bug report
+description: Report a reproducible bug in schema, vectors, SDKs, chain verification, or CLI.
+title: "[bug]: "
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Please provide a minimal, reproducible report.
+
+        If your issue may affect protocol behavior, include vector/spec impact details.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part is affected?
+      options:
+        - Spec / schema
+        - Golden vectors
+        - JS SDK
+        - Python SDK
+        - CLI (Node)
+        - CLI (Python)
+        - Integrations
+        - CI / tooling
+    validations:
+      required: true
+
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened?
+      description: Describe the actual behavior.
+      placeholder: Verification returned ok=true for a tampered proof...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: Describe the expected behavior.
+      placeholder: Tampering should fail with CHAIN_ENTRY_HASH_MISMATCH.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Provide exact commands and inputs.
+      placeholder: |
+        1. pnpm install
+        2. pnpm spec:validate
+        3. pnpm --filter @trustproof/sdk test
+        4. ...
+      render: bash
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit / tag tested
+      description: e.g. main@<sha> or v0.1.0
+      placeholder: main@abc1234
+    validations:
+      required: true
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS + Node + pnpm + Python versions.
+      placeholder: |
+        macOS 14.x
+        Node 20.x
+        pnpm 9.x
+        Python 3.12.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: spec_impact
+    attributes:
+      label: Spec/vector impact (if any)
+      description: If protocol behavior changes, explain backward compatibility and vector impact.
+      placeholder: Affects canonicalization ordering; vectors must be updated.
+    validations:
+      required: false
