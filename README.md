@@ -8,7 +8,7 @@ Signed, verifiable action receipts for humans + agents.
 [![Python](https://img.shields.io/badge/language-Python-3776ab)](#)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-black)](https://ataraxialab-ai.github.io/TrustProof-Protocol/)
-[![Verified](https://img.shields.io/badge/verified-placeholder-lightgrey)](#)
+[![Verified](https://img.shields.io/badge/verified-trustproof-lightgrey)](docs/badge.md)
 
 ## Quickstart
 
@@ -21,6 +21,15 @@ cd packages/py && python -m pytest -q && cd -
 node --input-type=module -e "import {generateKeyPairSync} from 'node:crypto'; import fs from 'node:fs'; import {generate} from './packages/js/dist/index.js'; const c=JSON.parse(fs.readFileSync('./spec/examples/allow.json','utf8')); const {privateKey,publicKey}=generateKeyPairSync('ed25519'); const priv=privateKey.export({format:'pem',type:'pkcs8'}).toString(); const pub=publicKey.export({format:'pem',type:'spki'}).toString(); const jwt=await generate(c,priv); fs.writeFileSync('/tmp/tp.jwt',jwt); fs.writeFileSync('/tmp/tp.pub.pem',pub);"
 node packages/js/dist/cli.js inspect "$(cat /tmp/tp.jwt)"
 node packages/js/dist/cli.js verify "$(cat /tmp/tp.jwt)" --pubkey /tmp/tp.pub.pem
+```
+
+## Verifier CLI
+
+```bash
+node packages/js/dist/cli.js inspect "<jwt>"
+node packages/js/dist/cli.js verify "<jwt>" --pubkey "<pem|b64|path>"
+cd packages/py && python -m trustproof inspect "<jwt>"
+cd packages/py && python -m trustproof verify "<jwt>" --pubkey "<pem|b64|path>"
 ```
 
 ## Repo Layout
