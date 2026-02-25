@@ -9,7 +9,10 @@ description = "TrustProof Python SDK placeholder"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
-dependencies = []
+dependencies = [
+  "PyJWT>=2.8.0",
+  "cryptography"
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
