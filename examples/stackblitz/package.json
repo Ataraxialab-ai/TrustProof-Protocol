@@ -1,0 +1,17 @@
+{
+  "name": "trustproof-stackblitz-playground",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node --import tsx index.ts"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "jose": "^5.10.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3"
+  }
+}
