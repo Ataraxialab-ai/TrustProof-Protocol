@@ -1,3 +1,1 @@
-export function integrationsPlaceholder(): string {
-  return "not-implemented";
-}
+export * from "./integrations/langchain";
