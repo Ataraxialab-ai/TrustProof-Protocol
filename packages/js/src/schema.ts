@@ -7,16 +7,12 @@ import Ajv, { type ErrorObject, type ValidateFunction } from "ajv";
 let validator: ValidateFunction | null = null;
 
 function resolveModuleUrl(): string {
-  const importMetaUrl = new Function(
-    "try { return import.meta.url; } catch { return undefined; }"
-  )() as string | undefined;
-
-  if (importMetaUrl) {
-    return importMetaUrl;
-  }
-
   if (typeof __filename === "string" && __filename.length > 0) {
     return pathToFileURL(__filename).href;
+  }
+
+  if (import.meta.url) {
+    return import.meta.url;
   }
 
   throw new Error("Unable to determine module URL for schema resolution.");
