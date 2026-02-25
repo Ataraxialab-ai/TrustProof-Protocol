@@ -1,0 +1,152 @@
+[
+  {
+    "name": "payout_allow",
+    "jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InR5cGUiOiJodW1hbiIsImlkIjoidXNlcl8wMDEifSwiYWN0aW9uIjoicGF5b3V0LmluaXRpYXRlIiwicmVzb3VyY2UiOnsidHlwZSI6InBheW91dCIsImlkIjoicG9fZGVtb18xIn0sInBvbGljeSI6eyJwb2xpY3lfdiI6InYwIiwic2NvcGVzIjpbInBheW91dDpjcmVhdGUiXSwiY29uc3RyYWludHMiOnsibWF4X2Ftb3VudF9jZW50cyI6NTAwMDAwLCJjdXJyZW5jeV9hbGxvd2xpc3QiOlsiVVNEIl0sIm1lcmNoYW50X2FsbG93bGlzdCI6WyJtX2FscGhhIl19fSwicmVzdWx0Ijp7ImRlY2lzaW9uIjoiYWxsb3ciLCJyZWFzb25fY29kZXMiOlsicG9saWN5X2NoZWNrc19wYXNzZWQiXX0sImhhc2hlcyI6eyJpbnB1dF9oYXNoIjoiMjk0Mzk3ZjAxYTVkYWM2MWMzNWUwYjExMmZlNDExNTU2NWY4NjI2MDRjOTkwMWM5MTU3OGU0MDZlZDExNDZkYyIsIm91dHB1dF9oYXNoIjoiODEwOTgxMTYzYjMxZjU1NmQ2MTAzNjZlY2Y2M2M2N2RhMzI2MTc5NGRjZjkwOTJiMWJkYjJjOWRkNTA2NjhkMSJ9LCJ0aW1lc3RhbXAiOiIyMDI2LTAyLTI0VDEyOjAwOjAwWiIsImp0aSI6ImRlbW9fcGF5b3V0X2FsbG93IiwiY2hhaW4iOnsicHJldl9oYXNoIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsImVudHJ5X2hhc2giOiIwOTgzYmMyOTY4NjRjNmQ5MWY0MGI0YWYyNDIzZjNjOGZlNDcxYjBjZjgyOGVmNGU2MmYzYTAzZDczMzNmOWZjIn0sImlhdCI6MTc3MTk5MzU2OX0.K4IuaZMaBWhjLoE-fRtQe589GaG3tOXF4GXtnlP0ync3TvpZWHheoM46SQQLkZ2_gRKxe-91dZQLB1tnN_1FCA",
+    "claims": {
+      "subject": {
+        "type": "human",
+        "id": "user_001"
+      },
+      "action": "payout.initiate",
+      "resource": {
+        "type": "payout",
+        "id": "po_demo_1"
+      },
+      "policy": {
+        "policy_v": "v0",
+        "scopes": [
+          "payout:create"
+        ],
+        "constraints": {
+          "max_amount_cents": 500000,
+          "currency_allowlist": [
+            "USD"
+          ],
+          "merchant_allowlist": [
+            "m_alpha"
+          ]
+        }
+      },
+      "result": {
+        "decision": "allow",
+        "reason_codes": [
+          "policy_checks_passed"
+        ]
+      },
+      "hashes": {
+        "input_hash": "294397f01a5dac61c35e0b112fe4115565f862604c9901c91578e406ed1146dc",
+        "output_hash": "810981163b31f556d610366ecf63c67da3261794dcf9092b1bdb2c9dd50668d1"
+      },
+      "timestamp": "2026-02-24T12:00:00Z",
+      "jti": "demo_payout_allow",
+      "chain": {
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "entry_hash": "0983bc296864c6d91f40b4af2423f3c8fe471b0cf828ef4e62f3a03d7333f9fc"
+      }
+    },
+    "verify_result": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  {
+    "name": "payout_stepup",
+    "jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InR5cGUiOiJodW1hbiIsImlkIjoidXNlcl8wMDEifSwiYWN0aW9uIjoicGF5b3V0LmluaXRpYXRlIiwicmVzb3VyY2UiOnsidHlwZSI6InBheW91dCIsImlkIjoicG9fZGVtb18yIn0sInBvbGljeSI6eyJwb2xpY3lfdiI6InYwIiwic2NvcGVzIjpbInBheW91dDpjcmVhdGUiXSwiY29uc3RyYWludHMiOnsibWF4X2Ftb3VudF9jZW50cyI6NTAwMDAwLCJjdXJyZW5jeV9hbGxvd2xpc3QiOlsiVVNEIl0sIm1lcmNoYW50X2FsbG93bGlzdCI6WyJtX2FscGhhIl19fSwicmVzdWx0Ijp7ImRlY2lzaW9uIjoic3RlcF91cCIsInJlYXNvbl9jb2RlcyI6WyJhbW91bnRfZXhjZWVkc19wb2xpY3lfbWF4Il19LCJoYXNoZXMiOnsiaW5wdXRfaGFzaCI6Ijc1NzM3ZTc0OWU5ZjY1YTFhYzA3ZTYwYzMxMDVjY2E4OWJiNzE3ZGVlNGNjZWRmODE1MzRlOGMxNWE3ZWMwOWQiLCJvdXRwdXRfaGFzaCI6ImE5YjI3MDY0YTQyNDgwMmYxNTJmNTlhZmJlYjEwZGY4YmJmZDE3YzVlZjFjN2I4Nzg2MWEyM2NlZjc1NjlhMmUifSwidGltZXN0YW1wIjoiMjAyNi0wMi0yNFQxMjowMDoxMFoiLCJqdGkiOiJkZW1vX3BheW91dF9zdGVwdXAiLCJjaGFpbiI6eyJwcmV2X2hhc2giOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwiZW50cnlfaGFzaCI6IjgzNjdmMzM4YTAzMDhlZTI1ZDZlMDc0N2FiMGQwZmQyYzBkYzU4YWJiM2FkNzA5MmM2ZmQzZTE4YmY5ZDJlNTMifSwiaWF0IjoxNzcxOTkzNTY5fQ.V8NTfqpf3XRXqLOOxGlQymCxtC0Y9Vy8N6TlL-xJzQ_8B1glDajspZoMhl5cmfaACIdbWtS-EZkcEt3kTEOkCQ",
+    "claims": {
+      "subject": {
+        "type": "human",
+        "id": "user_001"
+      },
+      "action": "payout.initiate",
+      "resource": {
+        "type": "payout",
+        "id": "po_demo_2"
+      },
+      "policy": {
+        "policy_v": "v0",
+        "scopes": [
+          "payout:create"
+        ],
+        "constraints": {
+          "max_amount_cents": 500000,
+          "currency_allowlist": [
+            "USD"
+          ],
+          "merchant_allowlist": [
+            "m_alpha"
+          ]
+        }
+      },
+      "result": {
+        "decision": "step_up",
+        "reason_codes": [
+          "amount_exceeds_policy_max"
+        ]
+      },
+      "hashes": {
+        "input_hash": "75737e749e9f65a1ac07e60c3105cca89bb717dee4ccedf81534e8c15a7ec09d",
+        "output_hash": "a9b27064a424802f152f59afbeb10df8bbfd17c5ef1c7b87861a23cef7569a2e"
+      },
+      "timestamp": "2026-02-24T12:00:10Z",
+      "jti": "demo_payout_stepup",
+      "chain": {
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "entry_hash": "8367f338a0308ee25d6e0747ab0d0fd2c0dc58abb3ad7092c6fd3e18bf9d2e53"
+      }
+    },
+    "verify_result": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  {
+    "name": "payout_stepup_approved",
+    "jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijp7InR5cGUiOiJodW1hbiIsImlkIjoidXNlcl8wMDEifSwiYWN0aW9uIjoicGF5b3V0LnN0ZXBfdXAuYXBwcm92ZSIsInJlc291cmNlIjp7InR5cGUiOiJwYXlvdXQiLCJpZCI6InBvX2RlbW9fMiJ9LCJwb2xpY3kiOnsicG9saWN5X3YiOiJ2MCIsInNjb3BlcyI6WyJwYXlvdXQ6Y3JlYXRlIl0sImNvbnN0cmFpbnRzIjp7Im1heF9hbW91bnRfY2VudHMiOjUwMDAwMCwiY3VycmVuY3lfYWxsb3dsaXN0IjpbIlVTRCJdLCJtZXJjaGFudF9hbGxvd2xpc3QiOlsibV9hbHBoYSJdfX0sInJlc3VsdCI6eyJkZWNpc2lvbiI6ImFsbG93IiwicmVhc29uX2NvZGVzIjpbInN0ZXBfdXBfYXBwcm92ZWQiXX0sImhhc2hlcyI6eyJpbnB1dF9oYXNoIjoiOGQ0MDA5MjZkOGE3MzcxNDgyMGRlN2EyYWYxZTQwMjhiMjdmNDI3ZWVkOGQzMTkzYzJlYzgyMDEwZjQ0MTgwNiIsIm91dHB1dF9oYXNoIjoiNzYwMDc4NDk2MmQyODVkYTg3ZGQwOGI1NGZkM2M5NTU0YzE3N2M2NmZhODFiOTI2NzU0MGI1NWY5NGQ3MmY3YSJ9LCJ0aW1lc3RhbXAiOiIyMDI2LTAyLTI0VDEyOjAwOjIwWiIsImp0aSI6ImRlbW9fcGF5b3V0X3N0ZXB1cF9hcHByb3ZlZCIsImNoYWluIjp7InByZXZfaGFzaCI6IjgzNjdmMzM4YTAzMDhlZTI1ZDZlMDc0N2FiMGQwZmQyYzBkYzU4YWJiM2FkNzA5MmM2ZmQzZTE4YmY5ZDJlNTMiLCJlbnRyeV9oYXNoIjoiMTgwZWUzNjZiOWFhYTFlODdmOGQxYWRjNTc3Yjc1NTk3YWQ1NmEzNTE2YzNiY2NiYzg1ZGFiYjZjMWY3MjM5MiJ9LCJpYXQiOjE3NzE5OTM1Njl9.bscnGu153UDzbA4bfU80VuYpP86Kz7kIaxL6Nw1j0xexQbeEosR_URrzMlWSFIx3IB-djbs4h6jS-nomyzGtBg",
+    "claims": {
+      "subject": {
+        "type": "human",
+        "id": "user_001"
+      },
+      "action": "payout.step_up.approve",
+      "resource": {
+        "type": "payout",
+        "id": "po_demo_2"
+      },
+      "policy": {
+        "policy_v": "v0",
+        "scopes": [
+          "payout:create"
+        ],
+        "constraints": {
+          "max_amount_cents": 500000,
+          "currency_allowlist": [
+            "USD"
+          ],
+          "merchant_allowlist": [
+            "m_alpha"
+          ]
+        }
+      },
+      "result": {
+        "decision": "allow",
+        "reason_codes": [
+          "step_up_approved"
+        ]
+      },
+      "hashes": {
+        "input_hash": "8d400926d8a73714820de7a2af1e4028b27f427eed8d3193c2ec82010f441806",
+        "output_hash": "7600784962d285da87dd08b54fd3c9554c177c66fa81b9267540b55f94d72f7a"
+      },
+      "timestamp": "2026-02-24T12:00:20Z",
+      "jti": "demo_payout_stepup_approved",
+      "chain": {
+        "prev_hash": "8367f338a0308ee25d6e0747ab0d0fd2c0dc58abb3ad7092c6fd3e18bf9d2e53",
+        "entry_hash": "180ee366b9aaa1e87f8d1adc577b75597ad56a3516c3bccbc85dabb6c1f72392"
+      }
+    },
+    "verify_result": {
+      "ok": true,
+      "errors": []
+    }
+  }
+]

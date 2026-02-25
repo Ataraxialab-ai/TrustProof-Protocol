@@ -1,0 +1,14 @@
+TrustProof Example: agent_actions
+
+Simulated tool calls:
+- payout.quote
+- payout.initiate
+
+✅ Verified agent_tool_quote
+  action=agent.tool.payout.quote resource=payout.quote jti=demo_agent_quote
+✅ Verified agent_tool_initiate
+  action=agent.tool.payout.initiate resource=payout.initiate jti=demo_agent_initiate
+
+✅ Verified chain agent_tool_quote -> agent_tool_initiate
+✅ Tamper => OK (failed as expected)
+  tamper_error=INVALID_PROOF
