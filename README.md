@@ -1,7 +1,13 @@
 # TrustProof Protocol
+https://ataraxialab-ai.github.io/TrustProof-Protocol/
 
 Signed, verifiable action receipts for humans + agents.
 
+[![Spec Validated](https://img.shields.io/badge/spec-validated-blue)](#quickstart)
+[![TypeScript](https://img.shields.io/badge/language-TypeScript-3178c6)](#)
+[![Python](https://img.shields.io/badge/language-Python-3776ab)](#)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-black)](https://ataraxialab-ai.github.io/TrustProof-Protocol/)
 [![Verified](https://img.shields.io/badge/verified-placeholder-lightgrey)](#)
 
 ## Quickstart
