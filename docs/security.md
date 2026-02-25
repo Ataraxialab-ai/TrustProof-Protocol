@@ -1,16 +1,23 @@
 # Security Notes
 
-## Replay Protection
+## Key Management & Rotation
+
+- Use Ed25519 key pairs and store private keys in secure systems (KMS/HSM for enterprise deployments).
+- Rotate keys regularly and include `kid` in JWT headers when multiple active keys exist.
+- Verifiers should be able to select public keys by `kid` (recommended roadmap behavior).
+- Keep prior public keys available for verification until the associated proofs expire.
+- Never log private keys.
+- Treat proofs as potentially sensitive records (they may contain operational metadata).
+- For production flows, prefer short-lived proofs (`exp`) where replay window and audit requirements permit.
+
+## Replay & Idempotency
 
 - `jti` is required in every claims envelope.
-- Verification can use a server-side replay store, but store integration is deployment-specific.
-- Use idempotency keys alongside `jti` for externally triggered operations (for example payout requests).
-
-Recommended storage pattern:
-
-- Key: `issuer_or_kid + jti`
-- Value: first-seen timestamp, status, optional metadata
-- TTL: align with your operation replay window (for example 24h/7d depending on risk)
+- Store seen `jti` values per tenant and action scope with TTL.
+- Recommended key shape: `tenant_id + action + kid + jti`.
+- Store first-seen timestamp and result status for replay decisions.
+- Use idempotency keys on action endpoints (for example payout initiation APIs) in addition to `jti`.
+- TTL should match operational replay risk windows (for example 24h or 7d based on risk profile).
 
 ## Chain Integrity
 
@@ -27,18 +34,20 @@ What chain does not provide by itself:
 
 If strict ordering is required, enforce write ordering in your own persistence layer.
 
-## Key Management
-
-- Use Ed25519 key pairs and rotate keys regularly.
-- Set `kid` during signing when multiple active keys may exist.
-- Never log private keys or commit them to source control.
-- Keep private keys in secure storage (KMS/HSM or equivalent secret manager).
-
 ## Data Minimization
 
 - Default to hashing input/output payloads in proofs.
 - Avoid embedding raw PII unless required for your use case.
 - Store raw payloads separately with stricter retention and access controls.
+
+## Operational Notes
+
+- Set maximum accepted claim/payload sizes and reject oversized proofs early.
+- Recommended starting point:
+  - max JWT size: 64 KB
+  - max `subject.id`/`resource.id`: application-defined hard caps
+  - max array lengths (for example `scopes`, `reason_codes`): enforce server limits
+- Fail closed on oversized input with explicit errors; do not attempt partial verification.
 
 ## Threat Model (Quick)
 
